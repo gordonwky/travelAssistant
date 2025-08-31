@@ -13,7 +13,60 @@ A **full-stack AI-powered travel assistant** that generates personalized itinera
 - **Parallel-safe state updates**: Each agent updates only its own keys.  
 - **Extensible**: Add more agents or tools easily (e.g., attractions, transport).  
 
+
 ---
+
+## 📂 Repository Structure
+
+### `agents/`
+- `flight_agent.py`  
+- `hotel_agent.py` 
+- `dining_agent.py` 
+- `itinerary_agent.py` 
+- TODO: _(add more agents as needed)_
+
+### `config/`
+- `llm_models.py` → Define the LLM model configuration (OpenAI / Anthropic etc.)
+
+### `api/`
+- `main.py` → FastAPI entrypoint (TODO: define routes for itinerary generation, health check, etc.)
+
+### `graph/`
+- `TravelAgent.py` → TravelAgent class using **LangGraph** (builds graph, runs workflow)
+
+### `models/`
+- `travel_model.py` → Defines `TravelState` (Pydantic model for state management)
+
+### `tools/`
+- `hotel_tools.py` → `hotel_search` function (TODO: implement API or mock)  
+- `flight_tools.py` (TODO)  
+- `dining_tools.py` (TODO)  
+- _(add other tools as needed)_
+
+### `tests/` (TODO)
+- Unit tests for agents, tools, and graph.
+
+### `Dockerfile` (TODO)
+- Dockerize FastAPI app for deployment.
+
+### `README.md`
+- Project documentation.
+
+---
+
+## ✅ TODO List
+
+- [ ] Implement tool functions (`hotel_search`, `flight_tools`, etc.)  
+- [ ] Add FastAPI endpoints in `api/main.py`  
+- [ ] Add unit tests in `tests/`  
+- [ ] Add error handling in graph execution  
+- [ ] Add `.env` handling for API keys (OpenAI, external APIs)  
+- [ ] Write Dockerfile for deployment  
+- [ ] CI/CD pipeline (GitHub Actions / GitLab) (optional)  
+
+---
+
+
 
 ## Tech Stack
 
