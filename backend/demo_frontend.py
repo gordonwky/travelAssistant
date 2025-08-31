@@ -1,38 +1,123 @@
 # frontend_ui_only.py
 import streamlit as st
 from datetime import date
+import time
 
 st.set_page_config(page_title="Travel Assistant", page_icon="🌏", layout="wide")
 
-st.title("🌏 Travel Itinerary Planner (UI Only)")
+st.title("🌏 Travel Itinerary Planner")
 
 # --- Inputs ---
+origin = st.text_input("Origin", "New York")
 destination = st.text_input("Destination", "Tokyo")
 departure_date = st.date_input("Departure Date", date.today())
 return_date = st.date_input("Return Date", date.today())
 
-# --- Placeholder for itinerary ---
-st.subheader("🗓️ Sample Itinerary Preview")
+# --- Fake TravelState data ---
+import streamlit as st
+import time
 
-# Example mock data to render
-sample_itinerary = [
-    {
-        "date": "2023-08-22",
-        "morning": {"name": "Senso-ji Temple", "description": "Historic Buddhist temple"},
-        "afternoon": {"name": "Tokyo Skytree", "description": "Observation tower with city views"},
-        "evening": {"name": "Shinjuku Golden Gai", "description": "Nightlife district with bars"}
+st.title("🗼 Tokyo Trip Planner (Simulation)")
+
+# --- Fake TravelState ---
+travel_state = {
+    "flight": {
+        "airline_name": "Cathay Pacific",
+        "flight_number": "CX524",
+        "departure_airport": "HKG",
+        "arrival_airport": "HND",
+        "departure_time": "2025-09-15T09:00:00+08:00",
+        "arrival_time": "2025-09-15T14:20:00+09:00",
+        "return_departure_time": "2025-09-18T15:20:00+09:00",
+        "return_arrival_time": "2025-09-18T19:10:00+08:00",
+        "price": 3880.0,
+        "currency": "HKD",
+        "seat_class": "Economy",
+        "stops": 0,
+        "duration": "8h 10m"
     },
-    {
-        "date": "2023-08-23",
-        "morning": {"name": "Meiji Shrine", "description": "Famous Shinto shrine"},
-        "afternoon": {"name": "Harajuku Takeshita Street", "description": "Trendy shopping street"},
-        "evening": {"name": "Shibuya Crossing", "description": "Iconic busy intersection"}
-    }
-]
+    "itinerary": [
+        {
+            "date": "2025-09-15",
+            "morning": None,
+            "afternoon": "Explore Asakusa district: Sensō-ji Temple and Nakamise shopping street for traditional culture and souvenirs.",
+            "evening": "Walk along Sumida River and enjoy Tokyo Skytree views or visit the observation deck."
+        },
+        {
+            "date": "2025-09-16",
+            "morning": "Stroll through Ueno Park and explore the Tokyo National Museum.",
+            "afternoon": "Discover Akihabara for electronics, anime, and pop culture shopping.",
+            "evening": "Wander through Shibuya to experience the famous crossing and Hachiko statue."
+        },
+        {
+            "date": "2025-09-17",
+            "morning": "Visit Meiji Shrine in Harajuku, then explore Takeshita Street for youth culture and fashion.",
+            "afternoon": "Relax at Shinjuku Gyoen National Garden and visit nearby department stores in Shinjuku.",
+            "evening": "Enjoy the vibrant lights and atmosphere of Kabukicho or Omoide Yokocho in Shinjuku."
+        },
+        {
+            "date": "2025-09-18",
+            "morning": "Visit the Imperial Palace East Gardens for a serene walk and some history.",
+            "afternoon": None,
+            "evening": None
+        }
+    ],
+    "dining": [
+        {
+            "date": "2025-09-15",
+            "morning": {"name": "Andon Ryokan Cafe", "cuisine": "Japanese (Light Breakfast)", "location": "Near Minowa Station, Taito", "price_range": "$", "rating": 4.4},
+            "afternoon": {"name": "Asakusa Menchi", "cuisine": "Japanese (Katsu & Menchi Katsu)", "location": "Nakamise Shopping Street, Asakusa", "price_range": "$", "rating": 4.2},
+            "evening": {"name": "BREW La La", "cuisine": "Western/Japanese Bar Food", "location": "Sumida Riverside, close to Tokyo Skytree", "price_range": "$$", "rating": 4.3}
+        },
+        {
+            "date": "2025-09-16",
+            "morning": {"name": "Ueno 3153 Café", "cuisine": "Japanese/Western Café", "location": "Across from Ueno Park entrance, Ueno", "price_range": "$", "rating": 4.1},
+            "afternoon": {"name": "Akihabara Gyu-Katsu Ichi Ni San", "cuisine": "Japanese (Beef Cutlet)", "location": "Akihabara", "price_range": "$$", "rating": 4.5},
+            "evening": {"name": "Uobei Shibuya Dogenzaka", "cuisine": "Japanese (Conveyor Belt Sushi)", "location": "Shibuya, near the Crossing", "price_range": "$", "rating": 4.2}
+        },
+        {
+            "date": "2025-09-17",
+            "morning": {"name": "Afuri Harajuku", "cuisine": "Japanese (Ramen)", "location": "Near Takeshita Street, Harajuku", "price_range": "$$", "rating": 4.4},
+            "afternoon": {"name": "Tsunahachi Shinjuku", "cuisine": "Japanese (Tempura)", "location": "Shinjuku", "price_range": "$$", "rating": 4.5},
+            "evening": {"name": "Kabukicho Yokocho", "cuisine": "Japanese (Izakaya Alley - Multiple Food Stalls)", "location": "Kabukicho, Shinjuku", "price_range": "$$", "rating": 4.3}
+        },
+        {
+            "date": "2025-09-18",
+            "morning": {"name": "Marunouchi Café SEEK", "cuisine": "Japanese/Western Café", "location": "Marunouchi near Tokyo Station", "price_range": "$", "rating": 4.0},
+            "afternoon": {"name": "Kajitsuen Marunouchi", "cuisine": "Japanese (Fruit Parlor & Light Lunch)", "location": "Marunouchi Bldg., Tokyo Station area", "price_range": "$$", "rating": 4.3},
+            "evening": {"name": "Soranoiro Nippon", "cuisine": "Japanese (Creative Ramen)", "location": "Tokyo Ramen Street, Tokyo Station", "price_range": "$", "rating": 4.2}
+        }
+    ]
+}
 
-# Render the mock itinerary
-for day in sample_itinerary:
-    with st.expander(f"📅 {day['date']}"):
-        st.markdown(f"**Morning**: {day['morning']['name']} - {day['morning']['description']}")
-        st.markdown(f"**Afternoon**: {day['afternoon']['name']} - {day['afternoon']['description']}")
-        st.markdown(f"**Evening**: {day['evening']['name']} - {day['evening']['description']}")
+# --- Submit button ---
+if st.button("Plan Trip"):
+    st.info("Planning your trip... ⏳")
+    time.sleep(2)  # simulate backend processing
+    st.success("Trip planned successfully!")
+
+    # --- Flight ---
+    f = travel_state["flight"]
+    st.subheader("✈️ Flight Details")
+    st.markdown(f"**Airline**: {f['airline_name']} ({f['flight_number']})")
+    st.markdown(f"**From**: {f['departure_airport']} → **To**: {f['arrival_airport']}")
+    st.markdown(f"**Departure / Return**: {f['departure_time']} → {f['return_departure_time']}")
+    st.markdown(f"**Price**: {f['price']} {f['currency']} | **Seat**: {f['seat_class']}")
+
+    # --- Dining ---
+    st.subheader("🍽️ Dining Plan")
+    for day in travel_state["dining"]:
+        with st.expander(f"📅 {day['date']}"):
+            for period in ["morning", "afternoon", "evening"]:
+                item = day.get(period)
+                if item:
+                    st.markdown(f"**{period.capitalize()}**: {item['name']} ({item['cuisine']}) - {item['location']} | Price: {item['price_range']}, Rating: {item['rating']}")
+
+    # --- Itinerary ---
+    st.subheader("🗓️ Daily Spots")
+    for day in travel_state["itinerary"]:
+        with st.expander(f"📅 {day['date']}"):
+            for period in ["morning", "afternoon", "evening"]:
+                spot = day.get(period)
+                if spot:
+                    st.markdown(f"**{period.capitalize()}**: {spot}")

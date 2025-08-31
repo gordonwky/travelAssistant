@@ -1,12 +1,7 @@
-from typing import Annotated, List
-from typing_extensions import TypedDict
-from langchain_core.tools import tool
 from langgraph.graph import StateGraph, START, END
-from langgraph.graph.message import add_messages
 from config.llm_models import llm
 from models.travel_model import TravelState
 from models.itinerary_model import SpotList
-from langchain_core.messages import ToolMessage
 from agents.dining_agent import dining_agent
 from agents.flight_agent import flight_agent
 from agents.hotel_agent import hotel_agent
@@ -49,63 +44,7 @@ def itinerary_agent(state: TravelState):
     ])
     print("Itinerary Result:", result)
     # Return updated state with draft itinerary
-    state["itinerary"] = result  
+    return {"itinerary": result}
     # could be raw LLM output or structured JSON if you parse it
-    return state
 
-
-
-# ---- Build Graph ----
-def build_travel_graph():
-    graph = StateGraph(TravelState)
-    graph.add_node("flight", flight_agent)
-    graph.add_node("itinerary", itinerary_agent)
-    graph.add_node("dining", dining_agent)
-    graph.add_node("hotel", hotel_agent)
-
-
-    graph.add_edge(START,"flight")
-    graph.add_edge("flight","itinerary")
-    graph.add_edge("itinerary","dining")
-    graph.add_edge("itinerary","hotel")
-
-    hotel_tool_node = ToolNode(tools=[hotel_search])
-    graph.add_node("tools", hotel_tool_node)
-
-    graph.add_conditional_edges(
-        "hotel",
-        tools_condition,
-)
-    graph.add_edge("tools", "hotel")
-    graph.add_edge("hotel",END)
-    # graph.add_edge("dining",END)
-
-    return graph.compile()
-
-
-def stream_graph_updates(user_input: str):
-    for event in graph.stream({"messages": [{"role": "user", "content": user_input}], "origin": "Hong Kong",
-                               "destination": "Tokyo","departure_date": "2025-08-22","return_date": "2025-08-27"}):
-        for value in event.values():
-            print("Assistant:", value["messages"][-1].content)
-
-# ---- Run the Graph ----
-if __name__ == "__main__":
-    graph = build_travel_graph()
-
-    user_input = input("User: ")
-    if user_input.lower() in ["quit", "exit", "q"]:
-        print("Goodbye!")
-    else:
-        result = graph.invoke(TravelState(
-            messages=[{"role": "user", "content": user_input}],
-            origin="Hong Kong",
-            destination="Tokyo",
-            departure_date="2025-08-22",
-            return_date="2025-08-27",
-        ))
-        print("===== Final Graph State =====")
-        # final_state is a dict with all keys in your TravelState
-        for key, value in result.items():
-            print(f"{key}: {value}")
 

@@ -32,21 +32,9 @@ def build_travel_graph():
     return graph.compile()
 
 
-# ---- Run the Graph ----
+# ---- Run the Agent ----
 if __name__ == "__main__":
     graph = build_travel_graph()
     state = {"messages":["Plan a Tokyo trip from 20 Aug to 27 Aug"],"destination": "Tokyo","departure_date": "2023-08-20","return_date": "2023-08-27"}  # initial input
     result = graph.run(state)
     print(result["summary"])
-
-#     # Run the agent
-# if __name__ == "__main__":
-#     # simplest way to call agent
-#     while True:
-#         message = input("You: ")
-#         if message.lower() in ["q", "exit", "quit"]:
-#             print("Exiting...")
-#             break
-#         result = hotel_agent.invoke({"messages": [("user", message)]})
-#         print(result)
-

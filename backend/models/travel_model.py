@@ -7,6 +7,14 @@ from models.hotel_model import HotelItinerary
 from models.flight_model import FlightResult
 from models.itinerary_model import SpotList
 from models.dining_model import DiningList
+class TravelRequest(TypedDict):
+    user_id: str
+    origin: str
+    destination: str
+    departure_date: str
+    return_date: str
+    messages: Annotated[list, add_messages]
+
 class TravelState(TypedDict):
     messages: Annotated[list, add_messages]
     user_id: str = Field(description="Unique identifier for the user")
@@ -18,4 +26,3 @@ class TravelState(TypedDict):
     dining: DiningList = Field(description="List of dining options")
     flight: FlightResult = Field(description="Flight information")
     hotel: HotelItinerary = Field(description="Hotel information")
-    aggregate: Annotated[list, operator.add]

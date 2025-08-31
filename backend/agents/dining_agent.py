@@ -38,6 +38,5 @@ def dining_agent(state: TravelState):
     ])
     print("Dining Result:", result)
     # Return updated state with draft dining plan
-    state["dining"] = result  # could be raw LLM output or structured JSON if you parse it
-    return state
+    return {"dining": result}
 
