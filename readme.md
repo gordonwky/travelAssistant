@@ -46,7 +46,7 @@ A **full-stack AI-powered travel assistant** that generates personalized itinera
 ### `tests/` (TODO)
 - Unit tests for agents, tools, and graph.
 
-### `Dockerfile` (TODO)
+### `Dockerfile` 
 - Dockerize FastAPI app for deployment.
 
 ### `README.md`
@@ -61,7 +61,6 @@ A **full-stack AI-powered travel assistant** that generates personalized itinera
 - [ ] Add unit tests in `tests/`  
 - [ ] Add error handling in graph execution  
 - [ ] Add `.env` handling for API keys (OpenAI, external APIs)  
-- [ ] Write Dockerfile for deployment  
 - [ ] CI/CD pipeline (GitHub Actions / GitLab) (optional)  
 
 ---
