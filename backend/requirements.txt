@@ -1,0 +1,14 @@
+alembic
+python-dotenv
+fastapi
+uvicorn[standard]
+pyjwt
+langgraph
+langchain
+langchain-openai
+passlib[bcrypt]
+pydantic>=2.0
+pydantic-settings
+sqlalchemy
+psycopg2-binary
+python-multipart
