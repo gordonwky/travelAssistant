@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker-compose up --build -d 
+      run: docker compose up --build -d 
     - name: run test inside the docker image
-      run: docker-compose exec -T backend pytest  
+      run: docker compose exec -T backend pytest  
     - name: Shut down the container
-      run: docker-compose down
+      run: docker compose down
