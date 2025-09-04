@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker-compose up --build -d 
+    - name: run test inside the docker image
+      run: docker-compose exec -T backend pytest  
+    - name: Shut down the container
+      run: docker-compose down
