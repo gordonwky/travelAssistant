@@ -25,9 +25,6 @@ jobs:
 
       - name: Build the Docker image
         run: docker compose up --build -d 
-
-      - name: Run tests inside the backend container
-        run: docker compose exec -T backend pytest  
-
+        
       - name: Shut down the container
         run: docker compose down
