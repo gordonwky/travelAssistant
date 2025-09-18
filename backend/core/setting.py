@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
 
+    REDIS_SERVER: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URL(self) -> str:
@@ -25,6 +29,19 @@ class Settings(BaseSettings):
 
     OPENAI_API_KEY: str
     SECRET_KEY: str
+
+    @computed_field
+    @property
+    def REDIS_DATABASE_URL(self)-> str:
+        return str(
+            MultiHostUrl.build(
+                scheme="redis",
+                host=self.REDIS_SERVER,
+                port=self.REDIS_PORT,
+                path=self.REDIS_DB,
+            )
+        )
+    
 
     class Config:
         env_file = ".env"
