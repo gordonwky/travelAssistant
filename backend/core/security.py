@@ -8,8 +8,9 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
-from core.db import User as DBUser,get_db
+from core.db import User as DBUser,get_db, UserRole
 from pydantic import BaseModel, ConfigDict
+
 load_dotenv()
 
 
@@ -82,7 +83,8 @@ def get_user(username: str,db: Session = Depends(get_db)) -> UserInDB:
         disabled=db_user.disabled,
         created=db_user.created,
         updated=db_user.updated,
-        hashed_password=db_user.hashed_password)
+        hashed_password=db_user.hashed_password,
+        )
         return user
     else:
         raise HTTPException(status_code=404, detail="User not found")
@@ -133,4 +135,14 @@ async def get_current_active_user(
 ) -> User:
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
+
+async def get_current_active_admin(
+    current_user: Annotated[User, Depends(get_current_user)],
+) -> User:
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    # Assuming role is an attribute of User model
+    if getattr(current_user, "role", None) != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
     return current_user
