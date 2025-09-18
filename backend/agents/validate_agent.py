@@ -1,5 +1,3 @@
-from typing import Annotated
-from typing_extensions import TypedDict
 from models.travel_model import TravelState
 from config.llm_models import llm
 from pydantic import BaseModel, Field
@@ -17,7 +15,7 @@ def validate_agent(state: TravelState) -> ValidationResult:
     # extract the last message from the chat history
     last_message = state["messages"][-1] if state["messages"] else ""
     # Create prompt for itinerary planning
-    system_prompt = f"""
+    system_prompt = """
     You are a validation agent.
     Based on the message,
     check for missing or inconsistent information.

@@ -1,14 +1,13 @@
-import os 
-from dotenv import load_dotenv
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, DateTime, func, ForeignKey
 from sqlalchemy.orm import sessionmaker, declarative_base 
 from core.setting import settings
 from sqlalchemy.orm import relationship
+from enum import Enum
+
 DATABASE_URL = settings.SQLALCHEMY_DATABASE_URL
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-from enum import Enum
 
 def get_db():
     db = SessionLocal()

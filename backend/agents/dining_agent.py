@@ -1,12 +1,6 @@
-from typing import Annotated, List
-from typing_extensions import TypedDict
-from langchain_core.tools import tool
-from langgraph.graph import StateGraph, START, END
-from langgraph.graph.message import add_messages
 from config.llm_models import llm
 from models.travel_model import TravelState
 from models.dining_model import DiningList
-from langchain_core.messages import ToolMessage
 # @tool
 # def search_spots():
 #     pass
@@ -34,7 +28,7 @@ def dining_agent(state: TravelState):
     # Invoke model
     result = model_with_tools.invoke([
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": f"Please plan my dining for each day."}
+        {"role": "user", "content": "Please plan my dining for each day."}
     ])
     print("Dining Result:", result)
     # Return updated state with draft dining plan

@@ -1,7 +1,6 @@
 from tools.hotel_tools import hotel_search
 from config.llm_models import llm
 from models.travel_model import TravelState
-from typing import List
 # Create the agent
 
 

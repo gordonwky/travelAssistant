@@ -1,7 +1,6 @@
-from typing import Annotated, TypedDict, List
+from typing import Annotated, TypedDict
 from pydantic import Field
 from langgraph.graph.message import add_messages
-import operator
 # import data models
 from models.hotel_model import HotelItinerary
 from models.flight_model import FlightResult

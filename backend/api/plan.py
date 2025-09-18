@@ -2,10 +2,9 @@ from fastapi import APIRouter,  Depends, HTTPException, status
 from config.llm_models import llm
 from models.travel_model import TravelState, TravelRequest
 from graph.TravelAgent import TravelAgent
-from fastapi.security import HTTPBasic, HTTPAuthorizationCredentials, OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 from core.security import get_current_active_user, User
-from core.db import User as DBUser
 from core.security import UserRole
 from config.redis_db import redisManager
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

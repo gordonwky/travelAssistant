@@ -1,4 +1,3 @@
-import os
 from dotenv import load_dotenv
 from services.redis_services import ItineraryRedis
 

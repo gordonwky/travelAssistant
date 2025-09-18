@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-from pydantic import PostgresDsn,computed_field
+from pydantic import computed_field
 from pydantic_core import MultiHostUrl
 
 class Settings(BaseSettings):

@@ -4,12 +4,12 @@ import os
 from dotenv import load_dotenv
 import jwt
 from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from core.db import User as DBUser,get_db, UserRole
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 load_dotenv()
 

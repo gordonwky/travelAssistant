@@ -3,7 +3,6 @@ from langchain_core.tools import tool
 from typing import List
 from models.hotel_model import HotelItem, HotelItinerary
 from langgraph.types import Command
-from langchain_core.messages import ToolMessage
 @tool
 def hotel_search(city: str) -> Command:
     """Pretend API call for finding hotel in a given city"""
