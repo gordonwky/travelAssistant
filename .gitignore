@@ -11,7 +11,16 @@ venv/
 # environment variables
 .env
 .venv/
-
+.python-version
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# scripts
+scripts/
+
+# ruff
+.ruff_cache/
+
+# redis
+dump.rdb
