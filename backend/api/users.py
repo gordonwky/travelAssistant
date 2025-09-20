@@ -4,12 +4,12 @@ from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from core.security import User, Token, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES,authenticate_user,get_current_active_user, get_password_hash, get_current_active_admin
 from sqlalchemy.orm import Session
-from core.db import get_db, User as DBUser, UserRole, UserSubscription
+from core.db import get_db, User as DBUser, UserRole, UserSubscription, SubscriptionPlan
 
 router = APIRouter(tags=["users"], prefix="/api")
 
 
-@router.post("/signup", response_model = dict)
+@router.post("/signup", response_model = dict, status_code=status.HTTP_201_CREATED)
 async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)) -> dict:
     user = db.query(DBUser).filter(DBUser.username == form_data.username).first()
     if user:
@@ -21,8 +21,8 @@ async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db:
         username=form_data.username,
         email=form_data.username,  # Assuming email is the same as username
         hashed_password=get_password_hash(form_data.password),  # In a real app, hash the password
-        role=UserRole.USER,  # Default role
-        subscription=UserSubscription.FREE  # Default subscription
+        role=UserRole.USER.value,  # Default role
+        subscriptionId=SubscriptionPlan.FREE.value  # Default subscription
 
     )
     db.add(new_user)

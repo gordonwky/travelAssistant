@@ -21,13 +21,16 @@ class UserRole(Enum):
     ADMIN = 1
     USER = 2
 
+class SubscriptionPlan(Enum):
+    FREE = 1
+    PREMIUM = 2
+    ENTERPRISE = 3
+
 class UserSubscription( Base):
     __tablename__ = "subscription"
     id = Column(Integer,primary_key=True, index=True, autoincrement=True)
-    name = Column(String, nullable=False)
-    quota = Column(Integer, nullable=False) 
-    users = relationship("User", back_populates="subscription")
-
+    name = Column(String, default=SubscriptionPlan.FREE.value, nullable=False)
+    quota = Column(Integer, default=1, nullable=False)
 
 class User(Base):
     __tablename__ = "users"
@@ -38,7 +41,7 @@ class User(Base):
     created = Column(DateTime(timezone=True), server_default=func.now())
     updated = Column(DateTime(timezone=True), onupdate=func.now())
     disabled = Column(Boolean, default=False)
-    role = Column(Integer, default=UserRole.USER, nullable=False)
+    role = Column(Integer, default=UserRole.USER.value, nullable=False)
     approved = Column(Boolean, default=False)
     subscriptionId = Column(Integer, ForeignKey(UserSubscription.id),nullable=True )
     subscription = relationship("UserSubscription", backref="users")
