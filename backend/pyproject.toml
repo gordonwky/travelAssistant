@@ -13,7 +13,8 @@ dependencies = [
     "langgraph",
     "langchain",
     "langchain-openai",
-    "passlib[bcrypt]",
+    "passlib",          # remove [bcrypt] to avoid auto-pull
+    "bcrypt==3.2.2",    # explicitly pin working version
     "pydantic>=2.0",
     "pydantic-settings",
     "sqlalchemy",
@@ -27,3 +28,6 @@ dev = [
     "ruff>=0.13.0",
     "pytest",
 ]
+
+[tool.setuptools]
+packages = ["api", "core", "graph", "config", "agents", "models", "alembic", "services"]
