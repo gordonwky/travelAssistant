@@ -8,7 +8,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session, joinedload
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
-from core.db import User as DBUser, UserSubscription,get_db, UserRole, SubscriptionPlan
+from core.db import User as DBUser,get_db, UserRole
 from pydantic import BaseModel
 
 load_dotenv()

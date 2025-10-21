@@ -10,13 +10,6 @@ def format_travel_state_response(travel_state: TravelState) -> Dict[str, Any]:
     else:
         state = dict(travel_state)
 
-    meta = {
-        "origin": state.get("origin"),
-        "destination": state.get("destination"),
-        "departure_date": state.get("departure_date"),
-        "return_date": state.get("return_date")
-    }
-
     response = {
         "flight": state.get("flight"),
         "hotel": state.get("hotel"),

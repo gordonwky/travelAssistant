@@ -1,10 +1,11 @@
 # Define a flight tool with search functionality
 from langchain_core.tools import tool
-from typing import List
-import requests
-
 import httpx
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+AMADEUS_API_KEY = os.getenv("AMADEUS_API_KEY")
+AMADEUS_API_SECRET = os.getenv("AMADEUS_API_SECRET")
 async def get_token():
     async with httpx.AsyncClient() as client:
         resp = await client.post(
