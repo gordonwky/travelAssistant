@@ -5,33 +5,17 @@ from dotenv import load_dotenv
 import jwt
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
-from core.db import User as DBUser,get_db, UserRole
+from core.db import User as DBUser, UserSubscription,get_db, UserRole, SubscriptionPlan
 from pydantic import BaseModel
 
 load_dotenv()
 
-
-
-# to get a string like this run:
-# openssl rand -hex 32
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        "disabled": False,
-    }
-}
-
 
 class Token(BaseModel):
     access_token: str
@@ -41,6 +25,10 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None = None
 
+class UserSubscriptionDTO(BaseModel):
+    id: int
+    name: str
+    quota: int
 
 class User(BaseModel):
     id: int
@@ -49,6 +37,9 @@ class User(BaseModel):
     disabled: bool
     created: datetime | None = None
     updated: datetime | None = None
+    role: UserRole | None = None
+    subscriptionId: int | None = None
+    subscription: UserSubscriptionDTO | None = None
 
 class UserInDB(User):
     hashed_password: str
@@ -71,11 +62,19 @@ def get_password_hash(password):
 
 def get_user(username: str,db: Session = Depends(get_db)) -> UserInDB:
     print("username:", repr(username))
-    db_user = db.query(DBUser).filter(DBUser.username == username).first()
-    users = db.query(DBUser).all()
-    print([u.username for u in users])
+    db_user = db.query(DBUser).options(joinedload(DBUser.subscription)).filter(DBUser.username == username).first()
     # print("DB User:", db_user)
     if db_user:
+        subscription = (
+            UserSubscriptionDTO(
+                id=db_user.subscription.id,
+                name=db_user.subscription.name,
+                quota=db_user.subscription.quota,
+            )
+            if db_user.subscription
+            else None
+)
+
         user = UserInDB(
         id=db_user.id,
         username=db_user.username,
@@ -84,6 +83,8 @@ def get_user(username: str,db: Session = Depends(get_db)) -> UserInDB:
         created=db_user.created,
         updated=db_user.updated,
         hashed_password=db_user.hashed_password,
+        role=UserRole(db_user.role) if db_user.role else None,
+        subscription= subscription
         )
         return user
     else:

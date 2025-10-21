@@ -7,12 +7,12 @@ from models.flight_model import FlightResult
 from models.itinerary_model import SpotList
 from models.dining_model import DiningList
 class TravelRequest(TypedDict):
-    user_id: str
+    # user_id: str
     origin: str
     destination: str
     departure_date: str
     return_date: str
-    messages: Annotated[list, add_messages]
+    # messages: Annotated[list, add_messages]
 
 class TravelState(TypedDict):
     messages: Annotated[list, add_messages]

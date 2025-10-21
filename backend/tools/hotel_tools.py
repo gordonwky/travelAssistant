@@ -1,4 +1,4 @@
-# Define a tool
+# Define a hotel tool with search functionality
 from langchain_core.tools import tool
 from typing import List
 from models.hotel_model import HotelItem, HotelItinerary

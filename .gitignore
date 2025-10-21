@@ -24,3 +24,9 @@ scripts/
 
 # redis
 dump.rdb
+
+# setuptools
+backend.egg-info/
+
+# build
+build/

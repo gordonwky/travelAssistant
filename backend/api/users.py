@@ -4,7 +4,7 @@ from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from core.security import User, Token, create_access_token,ACCESS_TOKEN_EXPIRE_MINUTES,authenticate_user,get_current_active_user, get_password_hash, get_current_active_admin
 from sqlalchemy.orm import Session
-from core.db import get_db, User as DBUser, UserRole, UserSubscription, SubscriptionPlan
+from core.db import get_db, User as DBUser, UserRole, SubscriptionPlan
 
 router = APIRouter(tags=["users"], prefix="/api")
 
