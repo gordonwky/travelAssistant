@@ -1,0 +1,15 @@
+from pydantic import BaseModel, Field
+class FlightResult(BaseModel):
+    airline_name: str = Field(description="The name of the airline")
+    flight_number: str = Field(description="The flight number")
+    departure_airport: str = Field(description="IATA code of the departure airport")
+    arrival_airport: str = Field(description="IATA code of the arrival airport")
+    departure_time: str = Field(description="Departure time in ISO 8601 format")
+    arrival_time: str = Field(description="Arrival time in ISO 8601 format")
+    return_departure_time: str = Field(description="Return flight departure time in ISO 8601 format")
+    return_arrival_time: str = Field(description="Return flight arrival time in ISO 8601 format")
+    price: float = Field(description="Total price for the round trip")
+    currency: str = Field(description="Currency code for the price")
+    seat_class: str = Field(description="Class of the seat (e.g., Economy, Business)")
+    stops: int = Field(description="Number of stops for the round trip")
+    duration: str = Field(description="Total duration of the round trip")
